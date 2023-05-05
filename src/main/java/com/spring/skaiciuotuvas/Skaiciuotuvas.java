@@ -15,6 +15,4 @@ public class Skaiciuotuvas {
 		//Spring karkasas (framework) paleis aplikacija, tai yra startuos tomcat serveri su numatytais parametrais.
 		SpringApplication.run(Skaiciuotuvas.class, args);
 	}
-
-
 }

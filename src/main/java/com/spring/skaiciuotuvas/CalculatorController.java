@@ -3,7 +3,10 @@ package com.spring.skaiciuotuvas;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 //Reikia susikurti controleri (spring framework)
 //RestController - Tai yra web controleris. Pazymi mvc valdikli. Leidzia viduje naudoti @RequestMapping (uzklausu susiejimo) anotacija.
@@ -21,10 +24,33 @@ public class CalculatorController {
     //Taciau jeigu mes noretume prisijungti tada butu skaiciuotuvas.lt/login
     //Vadinasi butu "/login"
     @RequestMapping (method = RequestMethod.GET, value = "/")
-    String helloWorld(){
-
-        return "Sveikas Pasauli";
+    String index(){
+        return "<h1>Internetinis skaičiuotuvas</h1>" +
+                "<p>Galimo operacijos:</p>" +
+                "<p>&nbsp;&nbsp;Sudėti</p>" +
+                "<p>&nbsp;&nbsp;Atimti</p>" +
+                "<p>&nbsp;&nbsp;Dauginti</p>" +
+                "<p>&nbsp;&nbsp;Dalinti</p>";
     }
 
-
+    // URL pavyzdys http://localhost:8080/skaiciuoti?sk1=3&sk2=1&zenklas=%2B (+) %2F (/)
+    // specialiems symboliams siųsti per url: https://meyerweb.com/eric/tools/dencoder/
+    @RequestMapping(method = RequestMethod.GET, value = "/skaiciuoti")
+    public String skaiciuoti(@RequestParam HashMap<String, String> skaiciai) {
+        double sk1 = Double.parseDouble(skaiciai.get("sk1"));
+        double sk2 = Double.parseDouble(skaiciai.get("sk2"));
+        String zenklas = skaiciai.get("zenklas");
+        // TODO: Pagal įvestą ženklą atlikti operaciją ir atspausdinti rezultatą
+        double rezultatas = 0;
+        if (zenklas.equals("+")) {
+            rezultatas = sk1 + sk2;
+        } else if (zenklas.equals("-")) {
+            rezultatas = sk1 - sk2;
+        } else if (zenklas.equals("/")) {
+            rezultatas = sk1 / sk2;
+        } else if (zenklas.equals("*")) {
+            rezultatas = sk1 * sk2;
+        }
+        return sk1 + " " + zenklas + " " + sk2 + " = " + rezultatas;
+    }
 }

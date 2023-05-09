@@ -1,8 +1,12 @@
 package com.spring.skaiciuotuvas;
 
+import jakarta.validation.Valid;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,13 +26,15 @@ import java.util.HashMap;
 // Rescontroller negrąžina view (vaizdo)
 // Kadangi mums reikia grąžinti view pagal SPRING MVC naudojame Controller anoticją
 @Controller
-public class CalculatorController {
+public class SkaiciuotuvasController {
     //Marsrutizavimo informacija (susiejimas). Siuo atveju ji nurodo Spring karkasui jog visas HTTP uzklausas, kuriu kelias yra "/" apdoros metodas helloWorld
     //"/" - reiskia root, pvz. skaiciuotuvas.lt (titulinis puslapis)
     //Taciau jeigu mes noretume prisijungti tada butu skaiciuotuvas.lt/login
     //Vadinasi butu "/login"
     @RequestMapping (method = RequestMethod.GET, value = "/")
-    String index(){
+    String index(Model model){
+        // Jeigu model'is 'skaicius' nepraeina validacijos - per jį grąžinamos validacijos klaidos į vaizdą (view)
+        model.addAttribute("skaicius", new Skaicius());
         // Grąžina jsp failą. Turi būti talpinami 'webapp -> WEB-INF -> JSP' aplanke
         return "skaiciuotuvas";
     }
@@ -36,26 +42,36 @@ public class CalculatorController {
     // URL pavyzdys http://localhost:8080/skaiciuoti?sk1=3&sk2=1&zenklas=%2B (+) %2F (/)
     // specialiems symboliams siųsti per url: https://meyerweb.com/eric/tools/dencoder/
     @RequestMapping(method = RequestMethod.POST, value = "/skaiciuoti")
-    public String skaiciuoti(@RequestParam HashMap<String, String> ivedimoSarasas, ModelMap isvedimoSarasas) {
+    // SVARBU!!! Parametras BindingResult turi eiti iš karto po anotacijos @Valid
+    // kitu atveju bus 'Validation failed for object'
+    public String skaiciuoti(
+            @Valid @ModelAttribute("skaicius") Skaicius skaicius2,
+            BindingResult bindingResult,
+            @RequestParam HashMap<String,String> ivedimoSarasas,
+            ModelMap isvedimoSarasas) {
         double sk1 = Double.parseDouble(ivedimoSarasas.get("sk1"));
         double sk2 = Double.parseDouble(ivedimoSarasas.get("sk2"));
         String zenklas = ivedimoSarasas.get("zenklas");
-        // TODO: Pagal įvestą ženklą atlikti operaciją ir atspausdinti rezultatą
-        double rezultatas = 0;
-        if (zenklas.equals("+")) {
-            rezultatas = sk1 + sk2;
-        } else if (zenklas.equals("-")) {
-            rezultatas = sk1 - sk2;
-        } else if (zenklas.equals("/")) {
-            rezultatas = sk1 / sk2;
-        } else if (zenklas.equals("*")) {
-            rezultatas = sk1 * sk2;
+
+        if (bindingResult.hasErrors()) { // Jeigu validacijos klaidos (žr. skaicius.java aprašytą validaciją prie kiekvieno skaičiaus)
+            return "skaiciuotuvas"; // Vartotojas lieka skaičiuotuvo lange tol kol neišlaiko validacijos klaidų
+        } else { // Praėjo validaciją - skaičiuojamas rezultatas
+            double rezultatas = 0;
+            if (zenklas.equals("+")) {
+                rezultatas = sk1 + sk2;
+            } else if (zenklas.equals("-")) {
+                rezultatas = sk1 - sk2;
+            } else if (zenklas.equals("/")) {
+                rezultatas = sk1 / sk2;
+            } else if (zenklas.equals("*")) {
+                rezultatas = sk1 * sk2;
+            }
+            // Sąrašas (modelis) naudojamas siųsti reikšmes iš Spring MVC controller į JSP (vaizdą)
+            isvedimoSarasas.put("sk1", sk1);
+            isvedimoSarasas.put("sk2", sk2);
+            isvedimoSarasas.put("zenklas", zenklas);
+            isvedimoSarasas.put("rezultatas", rezultatas);
+            return "skaiciuoti";
         }
-        // Sąrašas (modelis) naudojamas siųsti reikšmes iš Spring MVC controller į JSP (vaizdą)
-        isvedimoSarasas.put("sk1", sk1);
-        isvedimoSarasas.put("sk2", sk2);
-        isvedimoSarasas.put("zenklas", zenklas);
-        isvedimoSarasas.put("rezultatas", rezultatas);
-        return "skaiciuoti";
     }
 }

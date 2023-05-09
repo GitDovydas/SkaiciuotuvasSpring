@@ -1,5 +1,6 @@
-package com.spring.skaiciuotuvas;
+package com.spring.skaiciuotuvas.config;
 
+import com.spring.skaiciuotuvas.Skaiciuotuvas;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

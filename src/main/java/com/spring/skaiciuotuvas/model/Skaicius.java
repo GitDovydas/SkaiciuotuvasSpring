@@ -1,13 +1,24 @@
-package com.spring.skaiciuotuvas;
+package com.spring.skaiciuotuvas.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 
+@Entity
+@Table(name = "skaiciai")
 public class Skaicius {
+    @Id // PRIMARY KEY
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT
+    @Column(name = "id")
+    private int id;
     @Min(value = 0, message = "Validacijos klaida: skaičius nagali būti neigiamas")
+    @Column(name = "sk1")
     private double sk1;
     @Min(value = 0, message = "Validacijos klaida: skaičius nagali būti neigiamas")
+    @Column(name = "sk2")
     private double sk2;
+    @Column(name = "zenklas")
     private String zenklas;
+    @Column(name = "rezultatas")
     private double rezultatas;
 
     public Skaicius() {
@@ -18,6 +29,22 @@ public class Skaicius {
         this.sk2 = sk2;
         this.zenklas = zenklas;
         this.rezultatas = rezultatas;
+    }
+
+    public Skaicius(int id, double sk1, double sk2, String zenklas, double rezultatas) {
+        this.id = id;
+        this.sk1 = sk1;
+        this.sk2 = sk2;
+        this.zenklas = zenklas;
+        this.rezultatas = rezultatas;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getSk1() {
@@ -55,7 +82,8 @@ public class Skaicius {
     @Override
     public String toString() {
         return "Skaicius{" +
-                "sk1=" + sk1 +
+                "id=" + id +
+                ", sk1=" + sk1 +
                 ", sk2=" + sk2 +
                 ", zenklas='" + zenklas + '\'' +
                 ", rezultatas=" + rezultatas +

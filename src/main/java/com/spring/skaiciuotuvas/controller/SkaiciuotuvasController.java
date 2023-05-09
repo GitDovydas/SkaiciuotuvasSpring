@@ -1,6 +1,10 @@
-package com.spring.skaiciuotuvas;
+package com.spring.skaiciuotuvas.controller;
 
+import com.spring.skaiciuotuvas.model.Skaicius;
+import com.spring.skaiciuotuvas.service.SkaiciusService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +31,9 @@ import java.util.HashMap;
 // Kadangi mums reikia grąžinti view pagal SPRING MVC naudojame Controller anoticją
 @Controller
 public class SkaiciuotuvasController {
+    @Autowired
+    @Qualifier("SkaiciusServiceImpl")
+    private SkaiciusService skaiciusService;
     //Marsrutizavimo informacija (susiejimas). Siuo atveju ji nurodo Spring karkasui jog visas HTTP uzklausas, kuriu kelias yra "/" apdoros metodas helloWorld
     //"/" - reiskia root, pvz. skaiciuotuvas.lt (titulinis puslapis)
     //Taciau jeigu mes noretume prisijungti tada butu skaiciuotuvas.lt/login
@@ -71,6 +78,10 @@ public class SkaiciuotuvasController {
             isvedimoSarasas.put("sk2", sk2);
             isvedimoSarasas.put("zenklas", zenklas);
             isvedimoSarasas.put("rezultatas", rezultatas);
+
+            // Kreipiamės į service, kuris savo ruožtu kreipiasi į DAO ir išsaugo įrašą DB
+            skaiciusService.create(new Skaicius(sk1, sk2, zenklas, rezultatas));
+
             return "skaiciuoti";
         }
     }

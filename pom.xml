@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -56,9 +57,28 @@
 		<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
 		<!--	DB ORM (Object Relation Mapping) - klasės objektai atitinka įrašus lentelėje	-->
 		<dependency>
-			<groupId>org.hibernate.orm</groupId>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>6.2.2.Final</version>
+			<version>5.3.20.Final</version>
+		</dependency>
+		<!-- JSP JSTL anotacijoms (pvz.: forEach, URL, param) -->
+		<dependency>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
+		<!-- API, java.xml.bind module -->
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>2.3.2</version>
 		</dependency>
 
 	</dependencies>

@@ -1,6 +1,6 @@
 package com.spring.skaiciuotuvas.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import jakarta.validation.constraints.Min;
 
 @Entity
@@ -43,6 +43,7 @@ public class Skaicius {
         return id;
     }
 
+    // Būtinas, kad model vaikščiotų tarp front-end ir back-end
     public void setId(int id) {
         this.id = id;
     }

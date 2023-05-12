@@ -1,8 +1,8 @@
 package com.spring.skaiciuotuvas.model;
 
 import com.spring.skaiciuotuvas.config.JPAUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import java.util.List;
 

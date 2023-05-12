@@ -1,7 +1,7 @@
 package com.spring.skaiciuotuvas.config;
 
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 // Java Persistence API
 public class JPAUtil {

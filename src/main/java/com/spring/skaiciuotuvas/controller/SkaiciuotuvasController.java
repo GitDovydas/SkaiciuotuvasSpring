@@ -2,6 +2,7 @@ package com.spring.skaiciuotuvas.controller;
 
 import com.spring.skaiciuotuvas.model.Skaicius;
 import com.spring.skaiciuotuvas.service.SkaiciusService;
+import com.spring.skaiciuotuvas.service.SkaiciusServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -85,4 +86,44 @@ public class SkaiciuotuvasController {
             return "skaiciuoti";
         }
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/skaiciai")
+    public String gautiSkaicius(Model model){
+        model.addAttribute("skaiciai", skaiciusService.readAll());
+        return "skaiciai";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/rodyti{id}")
+    public String rodytiSkaiciu(@RequestParam("id") int id, Model model){
+        model.addAttribute("skaicius", skaiciusService.read(id));
+        return "skaicius";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/trinti{id}")
+    public String trintiSkaiciu (@RequestParam("id") int id, Model model){
+        skaiciusService.delete(id);
+        model.addAttribute("skaiciai", skaiciusService.readAll());
+        return "skaiciai";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/atnaujinti{id}")
+    public String rodytiPriesAtnaujinant (@RequestParam("id") int id, Model model){
+        model.addAttribute("skaicius", skaiciusService.read(id));
+        return "atnaujinti";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/atnaujintiSkaiciu")
+    public String atnaujintiSkaiciu (@ModelAttribute("skaicius") Skaicius skaicius){
+        skaiciusService.update(skaicius);
+        return "redirect:/rodyti?id=" + skaicius.getId();
+    }
+
+
+
+
+
+
+
+
+
 }

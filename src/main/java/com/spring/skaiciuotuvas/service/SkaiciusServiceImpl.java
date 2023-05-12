@@ -17,7 +17,7 @@ public class SkaiciusServiceImpl implements SkaiciusService{
     // Kad panaudoti Autowired anotaciją pirmiausiai reikia turėti apsirašius @Bean @Configuration klasę
     @Autowired
     // Qualifier anotacija kartu su Autowired patikslina su kuriuos konkrečiu Bean susieti priklausomybę
-    // Jeigu @Confuguration klasėje yra daugiau nei vienas @Bean @Qualifier anotiacija yra privaloma,
+    // Jeigu @Confuguration klasėje yra daugiau nei vienas @Bean @Qualifier anotacija yra privaloma,
     // kitu atveju metama klaida:
     // 'Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans,
     // or using @Qualifier to identify the bean that should be consumed'

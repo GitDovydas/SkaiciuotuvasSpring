@@ -4,6 +4,7 @@
     <head>
         <title>Skaičiuotuvas</title>
         <style>.error{color:red}</style>
+        <jsp:include page="header.jsp"/>
     </head>
     <body>
         <h2>Internetinis skaičiuotuvas. Galimos operacijos: sudėti, atimti, dauginti, dalinti</h2>
